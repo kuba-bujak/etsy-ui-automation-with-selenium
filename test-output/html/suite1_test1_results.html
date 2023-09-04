@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="description" content="TestNG unit test results." />
@@ -68,13 +68,13 @@
 	    		<span class="tooltiptextCustom">Copy Suite file name</span>
 			</div>
 	    </th> 
-	  	<th id="suiteXMLId">C:\Users\jakub.bujak\AppData\Local\JetBrains\IdeaIC2023.2\temp-testng-customsuite.xml</th>
+	  	<th id="suiteXMLId">C:\Users\HARDPC\AppData\Local\JetBrains\IdeaIC2023.2\temp-testng-customsuite.xml</th>
 	  	<th id="suiteXMLNameId" hidden="true">temp-testng-customsuite.xml</th>
 	  </tr>
 	  	  <tr>
 	    <th>Total Time : </th>
 	    <th></th>
-	    <th>00:00:12</th> 
+	    <th>00:00:35</th> 
 	  </tr>
 	  <tr>
 	    <th>Total Steps : </th>
@@ -84,7 +84,7 @@
 	  <tr>
 	    <th>Status : </th>
 	    <th></th>
-	    <th><font color="green">PASS</font></th> 
+	    <th><font color="red">FAIL</font></th> 
 	  </tr>
 	</table>
 </div>
@@ -109,28 +109,61 @@
 				
 				
 												
-				
-				
-												<tr>
-			<td class="time">1693822190688</td>
-			<td class="header passed" colspan="4" onClick="toggleElement('3d5fa3b6-9e24-4d92-9f15-ca3e90a5315a','block');changeSingleIcon('span-3d5fa3b6-9e24-4d92-9f15-ca3e90a5315a');" title="Click to expand/collapse" style="cursor: pointer;">
-			<div style="float:left;"><i>Class&nbsp;:&nbsp;</i>pl.globallogic.etsy.features.SearchResultFilteringTest</div>
-			<div style="float:right;">@Test @ with DataProvider : [""] &nbsp;&nbsp;<span id='span-3d5fa3b6-9e24-4d92-9f15-ca3e90a5315a' class="glyphicon glyphicon-menu-down"></span></div>
-			</td>
-			</tr>
-			<tr>
-	<td class="time">1693822190688</td>
+											<tr>
+	<td class="time">1693862490703</td>
+	<td class="header failed" colspan="4" onClick="toggleElement('0d8e20d9-6b62-4068-9cdf-1f988ac08bf6','block');changeSingleIcon('span-0d8e20d9-6b62-4068-9cdf-1f988ac08bf6');" title="Click to expand/collapse" style="cursor: pointer;">
+	<div style="float:left;"><i>Class&nbsp;:&nbsp;</i>pl.globallogic.etsy.features.SearchResultFilteringTest</div>
+	<div style="float:right;">@Test @ with DataProvider : [""] &nbsp;&nbsp;<span id='span-0d8e20d9-6b62-4068-9cdf-1f988ac08bf6' class="glyphicon glyphicon-menu-down"></span></div>
+	</td>
+	</tr>
+<tr>
+	<td class="time">1693862490703</td>
 	<td class="methodTest">
 		<span class="description"><b>Method: </b>searchResultPriceFitPriceRangeAfterFiltering</span><br>
 			<span class="description"><b>Description: </b></span><br>
-							<span class="duration"><b>Duration: </b>6.941s</span><br>
+							<span class="duration"><b>Duration: </b>32,754s</span><br>
 	</td>
 	<td class="result">
-						<div class="stackTrace" id="3d5fa3b6-9e24-4d92-9f15-ca3e90a5315a" style="display: block;">
-					</td>
+						<div class="noCollapse" id="0d8e20d9-6b62-4068-9cdf-1f988ac08bf6" style="display: block;">
+						<a href="javascript:toggleElement('exception-0d8e20d9-6b62-4068-9cdf-1f988ac08bf6','block')" title="Click to expand/collapse"><b>java.lang.AssertionError: expected [true] but found [false]</b></a><br/>
+		<div class="stackTrace" id="exception-0d8e20d9-6b62-4068-9cdf-1f988ac08bf6">
+					org.testng.Assert.fail(Assert.java:111)<br/>
+					org.testng.Assert.failNotEquals(Assert.java:1578)<br/>
+					org.testng.Assert.assertTrue(Assert.java:57)<br/>
+					org.testng.Assert.assertTrue(Assert.java:67)<br/>
+					pl.globallogic.etsy.features.SearchResultFilteringTest.searchResultPriceFitPriceRangeAfterFiltering(SearchResultFilteringTest.java:56)<br/>
+					java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)<br/>
+					java.base/java.lang.reflect.Method.invoke(Method.java:578)<br/>
+					org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)<br/>
+					org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)<br/>
+					org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)<br/>
+					org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)<br/>
+					org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)<br/>
+					org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)<br/>
+					org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)<br/>
+					org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)<br/>
+					java.base/java.util.ArrayList.forEach(ArrayList.java:1511)<br/>
+					org.testng.TestRunner.privateRun(TestRunner.java:848)<br/>
+					org.testng.TestRunner.run(TestRunner.java:621)<br/>
+					org.testng.SuiteRunner.runTest(SuiteRunner.java:443)<br/>
+					org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)<br/>
+					org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)<br/>
+					org.testng.SuiteRunner.run(SuiteRunner.java:336)<br/>
+					org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)<br/>
+					org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)<br/>
+					org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)<br/>
+					org.testng.TestNG.runSuitesLocally(TestNG.java:1200)<br/>
+					org.testng.TestNG.runSuites(TestNG.java:1114)<br/>
+					org.testng.TestNG.run(TestNG.java:1082)<br/>
+					com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:66)<br/>
+					com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)<br/>
+						</div>
+		</td>
 	</div>
 </tr>
-					  
+						
+				
+			  
 	</tbody>
 	</table>
 </div>

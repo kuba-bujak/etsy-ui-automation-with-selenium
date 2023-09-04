@@ -20,17 +20,16 @@ public class SearchResultFilteringTest extends BaseLangingPageTest {
     private static final String FILTER_MAX_PRICE = "search-filter-max-price-input";
     private static final String SEARCHED_ITEMS = "//ol[@data-results-grid-container]";
 
-    private static final String FILTERED_ITEM_PRICE = "div[@class='v2-listing-card__info']//span[@class='currency-value']";
+    private static final String FILTERED_ITEMS = "wt-list-unstyled";
 
     //Filter search result by price -> price didn't is lower than price value for filtering
     @Test
     public void searchResultPriceFitPriceRangeAfterFiltering() {
         String validQuery = "leather bag";
-        int minPrice = generateRandomPrice(10, 50);
-        int maxPrice = generateRandomPrice(minPrice, 100);
+        double minPrice = generateRandomPrice(10, 50);
+        double maxPrice = generateRandomPrice(minPrice, 100);
         landingPage.searchFor(validQuery);
         Assert.assertTrue(landingPage.isSearchResultValidFor(validQuery));
-        //expand filtering panel
         WebElement openFilters = new WebDriverWait(driver, Duration.ofSeconds(3)).until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath(OPEN_FILTER_BUTTON))
         );
@@ -39,26 +38,32 @@ public class SearchResultFilteringTest extends BaseLangingPageTest {
         minPriceInput.sendKeys(minPrice + "");
         WebElement maxPriceInput = driver.findElement(By.id(FILTER_MAX_PRICE));
         maxPriceInput.sendKeys(maxPrice + "" + Keys.ENTER);
-        //select required filters ( by price )
         WebElement usedFiltersButtonVisibility = new WebDriverWait(driver, Duration.ofSeconds(5)).
                 until(ExpectedConditions.visibilityOfElementLocated(By.xpath(SEARCHED_ITEMS)));
         Assert.assertTrue(usedFiltersButtonVisibility.isDisplayed());
-        List<WebElement> filteredItems = driver.findElements(By.xpath(SEARCHED_ITEMS));
-        for (WebElement item : filteredItems) {
-            List<String> itemPrice = List.of(item.findElements(By.xpath(FILTERED_ITEM_PRICE)).toString());
-            System.out.println(itemPrice);
+        WebElement filteredList = driver.findElement(By.xpath("//div[@data-search-results]//ol[@data-results-grid-container]"));
+        List<WebElement> filteredItems = filteredList.findElements(By.tagName("li"));
+        if (filteredItems.size() > 10) {
+            filteredItems = filteredItems.subList(0, 10);
         }
-        //apply selected filters
-        //verify item price is in range ( one or more items have a price from specified range )
+        for (WebElement item : filteredItems) {
+            String currencyAmount = item.findElement(By.className("currency-value")).getText().replace(",", ".");
+            double parsedAmount = Double.parseDouble(currencyAmount);
+            if (parsedAmount > maxPrice || parsedAmount < minPrice) {
+                System.out.println("Tak nie powinno być");
+                Assert.assertTrue(false);
+            }
+        }
+        Assert.assertTrue(true);
     }
 
-    private int generateRandomPrice(int minPrice, int maxPrice) {
+    private int generateRandomPrice(double minPrice, double maxPrice) {
         if (minPrice >= maxPrice) {
             throw new IllegalArgumentException("Min price must be lower than max price");
         }
 
         Random random = new Random();
-        return random.nextInt(maxPrice - minPrice + 1) + minPrice;
+        return (int) (random.nextDouble(maxPrice - minPrice + 1) + minPrice);
     }
 
     //Filter search result by free shipping -> free shipping tag need to be present on all items

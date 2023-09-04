@@ -3,19 +3,25 @@ package pl.globallogic.configuration;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OurWebDriverManager {
+
+    private final static Logger logger = LoggerFactory.getLogger(OurWebDriverManager.class);
     public static WebDriver getConfiguredWebDriver() {
-        String browserType = System.getProperty("browser", "chrome");
+        logger.info("Configuring web driver instance");
+        String browserType = System.getProperty("browser", "chrome").toLowerCase();
         return switch (browserType){
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-                System.out.println("Chrome driver configuration completed");
-                yield new ChromeDriver();
+                ChromeOptions opt = new ChromeOptions();
+//                opt.addArguments("--headless=new");
+                yield new ChromeDriver(opt);
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
-                System.out.println("Firefox driver configuration completed");
                 yield new FirefoxDriver();
             default:
                 yield new ChromeDriver();
