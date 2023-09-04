@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import pl.globallogic.configuration.OurWebDriverManager;
 import pl.globallogic.etsy.features.pageobjects.InvalidSearchResultPage;
 import pl.globallogic.etsy.features.pageobjects.LandingPage;
 
@@ -15,7 +16,8 @@ public class BaseLangingPageTest {
 
     @BeforeMethod
     public void globalSetUp() {
-        driver = new ChromeDriver();
+        System.setProperty("browser", "chrome");
+        driver = OurWebDriverManager.getConfiguredWebDriver();
         landingPage = new LandingPage(driver);
         landingPage.goTo();
         landingPage.acceptDefaultPrivacyPolicy();

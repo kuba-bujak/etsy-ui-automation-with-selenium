@@ -11,7 +11,7 @@ import java.time.Duration;
 public class InvalidSearchResultPage {
     private static final String INVALID_MESSAGE_HEADER = "//p[contains(@class, 'wt-text-heading-02')]";
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public InvalidSearchResultPage(WebDriver driver) {
         this.driver = driver;

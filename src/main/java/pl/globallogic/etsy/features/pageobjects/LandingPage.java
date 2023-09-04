@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.HashSet;
 import java.util.List;
 
 public class LandingPage {
@@ -17,7 +18,7 @@ public class LandingPage {
     private static final String SEARCH_FIELD_ID = "global-enhancements-search-query";
 
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public LandingPage(WebDriver driver) {
         this.driver = driver;
@@ -51,7 +52,7 @@ public class LandingPage {
         List<String> tokenizedQuery = List.of(validQuery.toLowerCase().split(" "));
         for (WebElement title : itemTitles) {
             List<String> tokenizedTitle = List.of(title.getText().toLowerCase().split(" "));
-            if ( tokenizedTitle.containsAll(tokenizedQuery) ) {
+            if ( new HashSet<>(tokenizedTitle).containsAll(tokenizedQuery) ) {
                 isTokenPresentInAllResults = true;
                 return isTokenPresentInAllResults;
             }
