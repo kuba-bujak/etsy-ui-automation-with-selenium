@@ -12,7 +12,8 @@ public class SelectHandlingDemoTest extends BaseCapabilitiesDemoTest{
         driver.get(WEB_FORM);
         Select select = new Select(driver.findElement(By.name("my-select")));
         String requiredOptionText = "Three";
-        select.selectByVisibleText(requiredOptionText);
+        //select.selectByVisibleText(requiredOptionText);
+        select.selectByIndex(3);
         Assert.assertEquals(requiredOptionText, select.getFirstSelectedOption().getText());
     }
 }
