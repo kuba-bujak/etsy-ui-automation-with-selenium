@@ -1,14 +1,15 @@
 package pl.globallogic.etsy.features;
 
+import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pl.globallogic.BaseLangingPageTest;
+import pl.globallogic.BaseLandingPageTest;
+import pl.globallogic.etsy.features.pageobjects.LandingPage;
 
-public class ItemDetailsPageVerificationTest extends BaseLangingPageTest {
+public class ItemDetailsPageVerificationTest extends BaseLandingPageTest{
 
-    //LandingPage
-    //SearchResultsPage
-    //ItemDetailsPAge
 
     @BeforeMethod
     public void testSetUp() {

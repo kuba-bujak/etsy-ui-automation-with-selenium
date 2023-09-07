@@ -2,11 +2,11 @@ package pl.globallogic.etsy.features;
 
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pl.globallogic.BaseLangingPageTest;
+import pl.globallogic.BaseLandingPageTest;
 import pl.globallogic.etsy.features.pageobjects.InvalidSearchResultPage;
 import pl.globallogic.utils.InvalidQueryGenerator;
 
-public class SearchFeatureVerificationTest extends BaseLangingPageTest {
+public class SearchFeatureVerificationTest extends BaseLandingPageTest {
 
     @Test
     public void shouldDisplaySearchResultsForValidQuery() {

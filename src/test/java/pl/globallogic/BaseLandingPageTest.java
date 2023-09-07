@@ -10,13 +10,15 @@ import org.testng.annotations.BeforeMethod;
 import pl.globallogic.configuration.OurWebDriverManager;
 import pl.globallogic.etsy.features.pageobjects.InvalidSearchResultPage;
 import pl.globallogic.etsy.features.pageobjects.LandingPage;
+import pl.globallogic.etsy.features.pageobjects.SearchResultPage;
 
-public class BaseLangingPageTest {
+public class BaseLandingPageTest {
 
-    protected Logger logger = LoggerFactory.getLogger(BaseLangingPageTest.class);
+    protected Logger logger = LoggerFactory.getLogger(BaseLandingPageTest.class);
     protected WebDriver driver;
     protected LandingPage landingPage;
     protected InvalidSearchResultPage invalidSearchResultPage;
+    protected SearchResultPage searchResultPage;
 
     @BeforeMethod
     public void globalSetUp() {
