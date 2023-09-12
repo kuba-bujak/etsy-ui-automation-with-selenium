@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.*;
 
+import static org.apache.commons.lang3.ThreadUtils.sleep;
+
 public class SearchResultPage {
     protected Logger logger = LoggerFactory.getLogger(SearchResultPage.class);
     private final WebDriver driver;
@@ -29,6 +31,7 @@ public class SearchResultPage {
     private static final int MAX_PRICE_VALUE = generateRandomPrice(MIN_PRICE_VALUE + 50, 150);
     private static final String COLOR_FILTERING_BUTTON = "//ul//li[@data-active-filter-tag]//a";
     private static final String COUNTRY_SHIPPING_DESTINATION = "//select[@name='ship_to']//optgroup";
+    private static final String ITEMS_SORTING_THE_LOWEST_PRICE = "//div[@id='sortby']";
 
     public SearchResultPage(WebDriver driver) {
         this.driver = driver;
@@ -78,8 +81,8 @@ public class SearchResultPage {
                 ExpectedConditions.visibilityOfElementLocated(By.xpath(FILTERED_PRODUCTS_LIST))
         );
         List<WebElement> filteredItems = filteredList.findElements(By.tagName("li"));
-        if (filteredItems.size() > 10) {
-            filteredItems = filteredItems.subList(0, 10);
+        if (filteredItems.size() > 20) {
+            filteredItems = filteredItems.subList(10, 20);
         }
         logger.info("Correctly get list of elements");
         return filteredItems;
@@ -88,15 +91,20 @@ public class SearchResultPage {
     public boolean areItemsPriceBetweenMinAndMax() {
         List<WebElement> filteredItems = getSearchedProductList();
         for (WebElement item : filteredItems) {
-            String currencyAmount = item.findElement(By.className("currency-value")).getText().replace(",", ".");
-            double parsedAmount = Double.parseDouble(currencyAmount);
+            double parsedAmount = getProductAmount(item);
+            logger.info(String.valueOf(parsedAmount));
             if (parsedAmount > MAX_PRICE_VALUE || parsedAmount < MIN_PRICE_VALUE) {
-                logger.info("Item number {} is out of range - item price is equal to '{}'", filteredItems.indexOf(item) + 1, currencyAmount);
+                logger.info("Item number {} is out of range - item price is equal to '{}'", filteredItems.indexOf(item) + 1, parsedAmount);
                 return false;
             }
-            logger.info("Item number {} correct - item price is equal to '{}'", filteredItems.indexOf(item) + 1, currencyAmount);
+            logger.info("Item number {} correct - item price is equal to '{}'", filteredItems.indexOf(item) + 1, parsedAmount);
         }
         return true;
+    }
+
+    private double getProductAmount(WebElement item) {
+        String currencyAmount = item.findElement(By.className("currency-value")).getText().replace(",", ".");
+        return Double.parseDouble(currencyAmount);
     }
 
     public boolean areItemsFreeShippingFilteredCorrectly() {
@@ -188,5 +196,27 @@ public class SearchResultPage {
         ).getText();
         logger.info("Filtered items have {} destination", destinationFilteringText);
         return destinationFilteringText.contains(setCountry);
+    }
+
+
+    public void selectSortingOrderByTheLowestPrice() {
+        driver.findElement(By.xpath(ITEMS_SORTING_THE_LOWEST_PRICE)).findElement(By.tagName("button")).click();
+        driver.findElement(By.xpath(ITEMS_SORTING_THE_LOWEST_PRICE)).findElement(By.xpath("//a[@data-sort-by-price_asc]")).click();
+        logger.info("Products are sorted by the lowest price");
+    }
+
+    public boolean areProductsSortByTheLowestPriceCorrectly(List<WebElement> sortedProducts) {
+        double previousProductPrice = 0;
+        for (int i = 0; i < sortedProducts.size(); i++) {
+            logger.info(String.valueOf(getProductAmount(sortedProducts.get(i))));
+            double currentProductPrice = getProductAmount(sortedProducts.get(i));
+            if (currentProductPrice < previousProductPrice) {
+                logger.info("Product prices are not the same - current product price is {}, - previous product price is {}", currentProductPrice, previousProductPrice);
+                return false;
+            }
+            previousProductPrice = currentProductPrice;
+        }
+        logger.info("Products are sorted correctly");
+        return true;
     }
 }

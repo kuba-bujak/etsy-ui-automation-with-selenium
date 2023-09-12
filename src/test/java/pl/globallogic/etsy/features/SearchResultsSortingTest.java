@@ -1,17 +1,28 @@
 package pl.globallogic.etsy.features;
 
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pl.globallogic.BaseLandingPageTest;
+import pl.globallogic.etsy.features.pageobjects.SearchResultPage;
+
+import java.util.List;
 
 public class SearchResultsSortingTest extends BaseLandingPageTest {
+
+    @BeforeMethod
+    public void testSetUp() {
+        String validQuery = "leather bag";
+        landingPage.searchFor(validQuery);
+        Assert.assertTrue(landingPage.isSearchResultValidFor(validQuery));
+        searchResultPage = new SearchResultPage(driver);
+    }
+
     @Test
     public void pricesShouldBeOrderedAccordingToSortingCriteria() {
-        //go to the landing page
-        //search for item
-        //wait for search result to be loaded
-        //select required sorting order ( lowest price )
-        //apply sorting
-        //wait for search result to be sorted
-        //verify item prices sorting order ( take 4 consecutive items and check if price[i] < price[i+1]
+        searchResultPage.selectSortingOrderByTheLowestPrice();
+        List<WebElement> sortedProducts = searchResultPage.getSearchedProductList();
+        Assert.assertTrue(searchResultPage.areProductsSortByTheLowestPriceCorrectly(sortedProducts));
     }
 }
