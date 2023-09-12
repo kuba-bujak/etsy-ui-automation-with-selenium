@@ -1,6 +1,7 @@
 package pl.globallogic.etsy.features;
 
 
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -8,6 +9,7 @@ import pl.globallogic.BaseLandingPageTest;
 import pl.globallogic.etsy.features.pageobjects.SearchResultPage;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -39,28 +41,23 @@ public class SearchResultFilteringTest extends BaseLandingPageTest {
 
     @Test
     public void searchResultPageContentNotChangedIfFilterApplicationCanceled() {
-
-        //get 1st item in results title to be used in verification (after cancelling remain in-place)
-        //expand filtering panel
-        //cancel filter application
-        //verify 1st item in result title
+        List<WebElement> itemsBeforeFiltering = searchResultPage.getSearchedProductList();
+        ArrayList<String> itemsIdsBeforeFiltering = searchResultPage.getProductsId(itemsBeforeFiltering);
+        searchResultPage.selectFreeShipping();
+        searchResultPage.cancelSelectingFilters();
+        List<WebElement> itemsAfterFiltering = searchResultPage.getSearchedProductList();
+        ArrayList<String> itemsIdsAfterFiltering = searchResultPage.getProductsId(itemsAfterFiltering);
+        Assert.assertTrue(searchResultPage.areItemListIsTheSameBeforeAndAfterCancelFiltering(itemsIdsBeforeFiltering, itemsIdsAfterFiltering));
     }
     @Test
     public void filteredColorSelectionOptionShouldBeAvailableInItemDetailsView() {
-
-        //select required filters ( by color )
-        //apply selected filters
-        //wait for search result to be filtered
-        //go to 1st result item details view
-        //verify color selection element contains required color
+        searchResultPage.setColorFilters();
+        Assert.assertTrue(searchResultPage.isColorFilteringSetCorrectly());
     }
     @Test
     public void filteredShippingCountryShouldBePresentInShippingDestinationOptions() {
-
-        //select required filters ( by shipping country )
-        //apply selected filters
-        //wait for search result to be filtered
-        //go to 1st result item details view
-        //verify shipping destination selection element contains required country
+        String countryDestination = searchResultPage.selectCountryShippingDestination();
+        searchResultPage.setApplyFilterButton();
+        Assert.assertTrue(searchResultPage.isCountryDestinationSetCorrectly(countryDestination));
     }
 }

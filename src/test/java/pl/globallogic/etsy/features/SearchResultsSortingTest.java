@@ -1,8 +1,9 @@
 package pl.globallogic.etsy.features;
 
 import org.testng.annotations.Test;
+import pl.globallogic.BaseLandingPageTest;
 
-public class SearchResultsSortingTest {
+public class SearchResultsSortingTest extends BaseLandingPageTest {
     @Test
     public void pricesShouldBeOrderedAccordingToSortingCriteria() {
         //go to the landing page

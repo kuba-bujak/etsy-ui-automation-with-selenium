@@ -10,8 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class SearchResultPage {
     protected Logger logger = LoggerFactory.getLogger(SearchResultPage.class);
@@ -22,10 +21,14 @@ public class SearchResultPage {
     private static final String INPUT_MAX_PRICE = "search-filter-max-price-input";
     private static final String SEARCHED_ITEMS = "//ol[@data-results-grid-container]";
     private static final String FREE_SHIPPING_CHECKBOX = "//label[@for='special-offers-free-shipping']";
-    private static final String APPLY_FILTER_BUTTON = "//button[@aria-label='Zastosuj']";
+    private static final String GREEN_COLOR_FILTER_CHECKBOX = "//label[@for='attr_1-4']";
+    private static final String APPLY_FILTER_BUTTON = "//div[contains(@class, 'wt-bt-xs')]//button[2][contains(@class, 'wt-btn wt-btn--primary')]";
+    private static final String CANCEL_FILTER_BUTTON = "search-filters-cancel-button";
     private static final String FILTERED_PRODUCTS_LIST = "//div[@data-search-results]//ol[@data-results-grid-container]";
     private static final int MIN_PRICE_VALUE = generateRandomPrice(10, 50);
     private static final int MAX_PRICE_VALUE = generateRandomPrice(MIN_PRICE_VALUE + 50, 150);
+    private static final String COLOR_FILTERING_BUTTON = "//ul//li[@data-active-filter-tag]//a";
+    private static final String COUNTRY_SHIPPING_DESTINATION = "//select[@name='ship_to']//optgroup";
 
     public SearchResultPage(WebDriver driver) {
         this.driver = driver;
@@ -53,6 +56,10 @@ public class SearchResultPage {
         WebElement freeShippingCheckbox = driver.findElement(By.xpath(FREE_SHIPPING_CHECKBOX));
         freeShippingCheckbox.click();
         logger.info("Free shipping correctly checked", MIN_PRICE_VALUE, MAX_PRICE_VALUE);
+        setApplyFilterButton();
+    }
+
+    public void setApplyFilterButton() {
         WebElement applyFilterButton = driver.findElement(By.xpath(APPLY_FILTER_BUTTON));
         applyFilterButton.click();
         logger.info("Apllied filters", MIN_PRICE_VALUE, MAX_PRICE_VALUE);
@@ -74,6 +81,7 @@ public class SearchResultPage {
         if (filteredItems.size() > 10) {
             filteredItems = filteredItems.subList(0, 10);
         }
+        logger.info("Correctly get list of elements");
         return filteredItems;
     }
 
@@ -95,12 +103,15 @@ public class SearchResultPage {
         boolean hasFreeShipping = false;
         List<WebElement> filteredItems = getSearchedProductList();
         for (WebElement item : filteredItems) {
-            String promotionBadgeLine = item.findElement(By.className("promotion-badge-line")).getText();
-            if (promotionBadgeLine.contains("Bezpłatna wysyłka")) {
+            WebElement promotionBadgeLine = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+                    ExpectedConditions.visibilityOfElementLocated(By.className("promotion-badge-line"))
+            );
+            String promotionText = promotionBadgeLine.getText();
+            if (promotionText.contains("Bezpłatna wysyłka") || promotionText.contains("Free shipping")) {
                 logger.info("Item number {} has free shipping", filteredItems.indexOf(item) + 1);
                 hasFreeShipping = true;
             } else {
-                logger.info("Item number {} has no free shipping - shipping is {}", filteredItems.indexOf(item) + 1, promotionBadgeLine);
+                logger.info("Item number {} has no free shipping - shipping is {}", filteredItems.indexOf(item) + 1, promotionText);
                 hasFreeShipping = false;
                 return hasFreeShipping;
             }
@@ -108,5 +119,74 @@ public class SearchResultPage {
         return hasFreeShipping;
     }
 
+    public void cancelSelectingFilters() {
+        WebElement cancelButton = driver.findElement(By.id(CANCEL_FILTER_BUTTON));
+        cancelButton.click();
+        logger.info("Canceled selecting filters");
+    }
 
+    public boolean areItemListIsTheSameBeforeAndAfterCancelFiltering(ArrayList<String> itemListBeforeId, ArrayList<String> itemListAfterId) {
+        if (itemListAfterId.size() != itemListBeforeId.size()) {
+            logger.info("Product list before cancellation has not the same size as after cancellation");
+            return false;
+        }
+        for (int i = 0; i < itemListAfterId.size(); i++) {
+            if (itemListBeforeId.get(i).equals(itemListAfterId.get(i))) {
+                logger.info("Product before cancellation is the same as after cancellation");
+                return true;
+            }
+        }
+        logger.info("Product list before cancellation is not the same as after cancellation");
+        return false;
+    }
+
+    public ArrayList<String> getProductsId(List<WebElement> productList) {
+        ArrayList<String> productListId = new ArrayList<>();
+        for (WebElement productItem : productList) {
+            List<WebElement> productIdContainer = productItem.findElements(By.xpath("//div[@data-logger-id]")).subList(0, 10);
+            for (WebElement product : productIdContainer) {
+                String productId = product.getAttribute("data-logger-id");
+                logger.info(productId);
+                productListId.add(productId);
+            }
+        }
+        return productListId;
+    }
+
+    public void setColorFilters() {
+        WebElement colorButton = driver.findElement(By.xpath(GREEN_COLOR_FILTER_CHECKBOX));
+        colorButton.click();
+        logger.info("Canceled selecting filters");
+        setApplyFilterButton();
+    }
+
+    public boolean isColorFilteringSetCorrectly() {
+        String colorFilteringText = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath(COLOR_FILTERING_BUTTON))
+        ).getText();
+        logger.info("Filtered items have {} color", colorFilteringText);
+        return colorFilteringText.contains("Green");
+    }
+
+    public String selectCountryShippingDestination() {
+        List<WebElement> destinationSelectList = driver.findElements(By.xpath(COUNTRY_SHIPPING_DESTINATION));
+        List<WebElement> shippingCountryList = new ArrayList<>();
+        for (WebElement countries : destinationSelectList) {
+            List<WebElement> optionElements = countries.findElements(By.tagName("option"));
+            shippingCountryList.addAll(optionElements);
+        }
+        int randomNumber = (int) Math.floor(Math.random() * (shippingCountryList.size()));
+        WebElement selectedCountry = shippingCountryList.get(randomNumber);
+        selectedCountry.click();
+        logger.info("Destination country set to {}", selectedCountry.getText());
+        return selectedCountry.getText();
+    }
+
+    public boolean isCountryDestinationSetCorrectly(String setCountry) {
+        String destinationFilteringText = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul//li//a[@data-filter-tag-close-link]"))
+        ).getText();
+        logger.info("Filtered items have {} destination", destinationFilteringText);
+        return destinationFilteringText.contains(setCountry);
+    }
 }
