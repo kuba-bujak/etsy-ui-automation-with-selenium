@@ -43,8 +43,8 @@
 	    		<span class="tooltiptextCustom">Copy Class name</span>
 			</div>
 	    </th> 
-	    <th id="testClassId">pl.globallogic.etsy.features.SearchResultsSortingTest</th>
-	    <th id="testClassNameId" hidden="true">SearchResultsSortingTest</th>
+	    <th id="testClassId">pl.globallogic.etsy.features.ItemDetailsPageVerificationTest</th>
+	    <th id="testClassNameId" hidden="true">ItemDetailsPageVerificationTest</th>
 	  </tr>
 	  <tr>
 	    <th>Suite Name : </th>
@@ -74,7 +74,7 @@
 	  	  <tr>
 	    <th>Total Time : </th>
 	    <th></th>
-	    <th>00:00:14</th> 
+	    <th>00:00:22</th> 
 	  </tr>
 	  <tr>
 	    <th>Total Steps : </th>
@@ -110,28 +110,32 @@
 				
 												
 											<tr>
-	<td class="time">1694525591387</td>
-	<td class="header failed" colspan="4" onClick="toggleElement('c605b8e9-7237-40a4-b2b8-b217fc029ca4','block');changeSingleIcon('span-c605b8e9-7237-40a4-b2b8-b217fc029ca4');" title="Click to expand/collapse" style="cursor: pointer;">
-	<div style="float:left;"><i>Class&nbsp;:&nbsp;</i>pl.globallogic.etsy.features.SearchResultsSortingTest</div>
-	<div style="float:right;">@Test @ with DataProvider : [""] &nbsp;&nbsp;<span id='span-c605b8e9-7237-40a4-b2b8-b217fc029ca4' class="glyphicon glyphicon-menu-down"></span></div>
+	<td class="time">1694692697817</td>
+	<td class="header failed" colspan="4" onClick="toggleElement('559bafbb-329f-4847-ace7-5ed8fc158b70','block');changeSingleIcon('span-559bafbb-329f-4847-ace7-5ed8fc158b70');" title="Click to expand/collapse" style="cursor: pointer;">
+	<div style="float:left;"><i>Class&nbsp;:&nbsp;</i>pl.globallogic.etsy.features.ItemDetailsPageVerificationTest</div>
+	<div style="float:right;">@Test @ with DataProvider : [""] &nbsp;&nbsp;<span id='span-559bafbb-329f-4847-ace7-5ed8fc158b70' class="glyphicon glyphicon-menu-down"></span></div>
 	</td>
 	</tr>
 <tr>
-	<td class="time">1694525591387</td>
+	<td class="time">1694692697817</td>
 	<td class="methodTest">
-		<span class="description"><b>Method: </b>pricesShouldBeOrderedAccordingToSortingCriteria</span><br>
+		<span class="description"><b>Method: </b>shouldHaveAddToCartButton</span><br>
 			<span class="description"><b>Description: </b></span><br>
-							<span class="duration"><b>Duration: </b>2.485s</span><br>
+							<span class="duration"><b>Duration: </b>10.174s</span><br>
 	</td>
 	<td class="result">
-						<div class="noCollapse" id="c605b8e9-7237-40a4-b2b8-b217fc029ca4" style="display: block;">
-						<a href="javascript:toggleElement('exception-c605b8e9-7237-40a4-b2b8-b217fc029ca4','block')" title="Click to expand/collapse"><b>java.lang.AssertionError: expected [true] but found [false]</b></a><br/>
-		<div class="stackTrace" id="exception-c605b8e9-7237-40a4-b2b8-b217fc029ca4">
-					org.testng.Assert.fail(Assert.java:111)<br/>
-					org.testng.Assert.failNotEquals(Assert.java:1578)<br/>
-					org.testng.Assert.assertTrue(Assert.java:57)<br/>
-					org.testng.Assert.assertTrue(Assert.java:67)<br/>
-					pl.globallogic.etsy.features.SearchResultsSortingTest.pricesShouldBeOrderedAccordingToSortingCriteria(SearchResultsSortingTest.java:26)<br/>
+						<div class="noCollapse" id="559bafbb-329f-4847-ace7-5ed8fc158b70" style="display: block;">
+						<a href="javascript:toggleElement('exception-559bafbb-329f-4847-ace7-5ed8fc158b70','block')" title="Click to expand/collapse"><b>org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of element located by By.xpath: //div[@data-add-to-cart-button]//button (tried for 10 second(s) with 500 milliseconds interval)<br/>
+Build info: version: &apos;4.11.0&apos;, revision: &apos;040bc5406b&apos;<br/>
+System info: os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;<br/>
+Driver info: org.openqa.selenium.chrome.ChromeDriver<br/>
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 116.0.5845.188, chrome: {chromedriverVersion: 116.0.5845.96 (1a3918166880..., userDataDir: C:\Windows\SystemTemp\scope...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:49981}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:49981/devtoo..., se:cdpVersion: 116.0.5845.188, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}<br/>
+Session ID: ec9047dc5c7ceec50764e56b3ab40b55</b></a><br/>
+		<div class="stackTrace" id="exception-559bafbb-329f-4847-ace7-5ed8fc158b70">
+					org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)<br/>
+					org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:230)<br/>
+					pl.globallogic.etsy.features.pageobjects.ItemDetails.isAddToCardButtonVisible(ItemDetails.java:40)<br/>
+					pl.globallogic.etsy.features.ItemDetailsPageVerificationTest.shouldHaveAddToCartButton(ItemDetailsPageVerificationTest.java:33)<br/>
 					java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)<br/>
 					java.base/java.lang.reflect.Method.invoke(Method.java:578)<br/>
 					org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)<br/>

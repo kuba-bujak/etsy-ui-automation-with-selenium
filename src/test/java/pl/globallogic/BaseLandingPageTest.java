@@ -9,6 +9,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import pl.globallogic.configuration.OurWebDriverManager;
 import pl.globallogic.etsy.features.pageobjects.InvalidSearchResultPage;
+import pl.globallogic.etsy.features.pageobjects.ItemDetails;
 import pl.globallogic.etsy.features.pageobjects.LandingPage;
 import pl.globallogic.etsy.features.pageobjects.SearchResultPage;
 
@@ -19,6 +20,7 @@ public class BaseLandingPageTest {
     protected LandingPage landingPage;
     protected InvalidSearchResultPage invalidSearchResultPage;
     protected SearchResultPage searchResultPage;
+    protected ItemDetails itemDetails;
 
     @BeforeMethod
     public void globalSetUp() {

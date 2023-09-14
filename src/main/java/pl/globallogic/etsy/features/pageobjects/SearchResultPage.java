@@ -81,8 +81,8 @@ public class SearchResultPage {
                 ExpectedConditions.visibilityOfElementLocated(By.xpath(FILTERED_PRODUCTS_LIST))
         );
         List<WebElement> filteredItems = filteredList.findElements(By.tagName("li"));
-        if (filteredItems.size() > 20) {
-            filteredItems = filteredItems.subList(10, 20);
+        if (filteredItems.size() > 10) {
+            filteredItems = filteredItems.subList(0, 10);
         }
         logger.info("Correctly get list of elements");
         return filteredItems;
